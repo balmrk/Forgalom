@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.persistence.Id;
 import javax.xml.transform.Result;
 import java.io.*;
 import java.net.URL;
@@ -21,8 +22,9 @@ import java.sql.ResultSet;
 import java.util.List;
 
 public class GrafikusController {
-    @FXML private Label lb1;
-    @FXML private GridPane gp1, gp2, gp3, gp4, gp5, gp6;
+    public static String get79Resp, getAllResp;
+    @FXML private Label lb1, get79, getall;
+    @FXML private GridPane gp1, gp2, gp3, gp4, gp5, gp6, gp7;
     @FXML private TextField tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfEmail3;
     @FXML private TableView tv1, tv2;
@@ -56,6 +58,8 @@ public class GrafikusController {
         gp5.setManaged(false);
         gp6.setVisible(false);
         gp6.setManaged(false);
+        gp7.setVisible(false);
+        gp7.setManaged(false);
     }
     @FXML protected void menuCreateClick() {
         ElemekTörlése();
@@ -65,7 +69,7 @@ public class GrafikusController {
     void Create(){
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
-        AruClass aru=new AruClass(1,"1","1",1);
+        AruClass aru=new AruClass(Integer.parseInt(tfKat_kod.getText()),tfNév.getText(),tfEgyseg.getText(),Integer.parseInt(tfAr.getText()));
         session.save(aru);
         t.commit();
     }
@@ -103,7 +107,7 @@ public class GrafikusController {
         System.out.println();
         t.commit();
     }
-    @FXML protected void menuUpdateClick() {
+    @FXML protected void menuUpdateClick() { //????????????????????????????????????????????????????????????
         ElemekTörlése();
         gp2.setVisible(true);
         gp2.setManaged(true);
@@ -137,7 +141,11 @@ public class GrafikusController {
             e.printStackTrace();
         }
     }
-        // FAKE REST API RÉSZ JÖN
+    //==================================================================================================================
+    //==================================================================================================================
+    //============================================GOREST.IN=============================================================
+    //==================================================================================================================
+    //==================================================================================================================
     static String token = "5d150c6fe2aea1dcfbc9ce62d2c0e7f990c94fbd5047edbd889d0de52708e07b";
     static HttpsURLConnection connection;
     static void segéd1(){
@@ -153,17 +161,24 @@ public class GrafikusController {
         wr.close();
         connection.connect();
     }
-    static void segéd3(int code) throws IOException {
+    static void segéd3(int code, String id) throws IOException {
         int statusCode = connection.getResponseCode();   // Getting response code
         System.out.println("statusCode: "+statusCode);
         if (statusCode == code) {     // If responseCode is code, data fetch successful
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer jsonResponseData = new StringBuffer();
             String readLine = null;
-            while ((readLine = in.readLine()) != null)   // Append response line by line
+            while ((readLine = in.readLine()) != null) {   // Append response line by line
                 jsonResponseData.append(readLine);
+            }
             in.close();
-            System.out.println("List of users: " + jsonResponseData.toString());    // Print result in string format
+            if (id!=null) {
+                get79Resp = jsonResponseData.toString();
+                System.out.println("List of users: " + get79Resp);
+            }else{
+                getAllResp = jsonResponseData.toString();
+                System.out.println("User 79: " + getAllResp);
+            }
         } else {
             System.out.println("Hiba!!!");
         }
@@ -179,7 +194,18 @@ public class GrafikusController {
         connection.setRequestMethod("GET");  // Set request method
         if(ID!=null)
             connection.setRequestProperty("Authorization", "Bearer " + token);
-        segéd3(HttpsURLConnection.HTTP_OK);
+        segéd3(HttpsURLConnection.HTTP_OK,ID);
+    }
+    @FXML protected void rest1GET() throws IOException {
+        ElemekTörlése();
+        gp7.setVisible(true);
+        gp7.setManaged(true);
+
+        RestGET(null);
+        RestGET("79");
+
+        get79.setText(get79Resp);
+        getall.setText(getAllResp);
     }
     @FXML protected void rest1CreateClick() {
         ElemekTörlése();

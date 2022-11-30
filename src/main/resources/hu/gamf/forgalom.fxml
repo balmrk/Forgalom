@@ -35,7 +35,7 @@
                     <MenuItem text="Create" onAction="#rest1CreateClick"/>
                 </items>
                 <items>
-                    <MenuItem text="Read" />
+                    <MenuItem text="Read" onAction="#rest1GET"/>
                 </items>
                 <items>
                     <MenuItem text="Update" onAction="#rest1UpdateClick"/>
@@ -148,6 +148,10 @@
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Email:</Label>
         <ComboBox fx:id="tfEmail3" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
         <Button GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
+    </GridPane>
+    <GridPane fx:id="gp7" hgap="2" vgap="4">
+        <Label fx:id="get79" GridPane.rowIndex="0" GridPane.columnIndex="0">https://gorest.co.in/public/v1/users/79</Label>
+        <Label fx:id="getall" GridPane.rowIndex="1" GridPane.columnIndex="0">https://gorest.co.in/public/v1/users</Label>
     </GridPane>
     <TableView fx:id="tv2" >
     </TableView>
