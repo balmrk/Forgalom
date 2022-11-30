@@ -1,22 +1,31 @@
 package hu.gamf;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.xml.transform.Result;
+import java.io.*;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.util.List;
 
 public class GrafikusController {
     @FXML private Label lb1;
-    @FXML private GridPane gp1;
-    @FXML private TextField tfNév, tfKor, tfSúly;
-    @FXML private TableView tv1;
+    @FXML private GridPane gp1, gp2, gp3, gp4, gp5, gp6;
+    @FXML private TextField tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
+    @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfEmail3;
+    @FXML private TableView tv1, tv2;
     @FXML private TableColumn<AruClass, String> aruCol;
     @FXML private TableColumn<AruClass, String> katCol;
     @FXML private TableColumn<AruClass, String> nevCol;
@@ -35,6 +44,18 @@ public class GrafikusController {
         gp1.setManaged(false);
         tv1.setVisible(false);
         tv1.setManaged(false);
+        tv2.setVisible(false);
+        tv2.setManaged(false);
+        gp2.setVisible(false);
+        gp2.setManaged(false);
+        gp3.setVisible(false);
+        gp3.setManaged(false);
+        gp4.setVisible(false);
+        gp4.setManaged(false);
+        gp5.setVisible(false);
+        gp5.setManaged(false);
+        gp6.setVisible(false);
+        gp6.setManaged(false);
     }
     @FXML protected void menuCreateClick() {
         ElemekTörlése();
@@ -44,13 +65,7 @@ public class GrafikusController {
     void Create(){
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        AruClass aru=new AruClass(1,"1","1",1); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        AruClass aru=new AruClass(1,"1","1",1);
         session.save(aru);
         t.commit();
     }
@@ -88,6 +103,97 @@ public class GrafikusController {
         System.out.println();
         t.commit();
     }
-    @FXML protected void menuUpdateClick() {}
-    @FXML protected void menuDeleteClick() {}
+    @FXML protected void menuUpdateClick() {
+        ElemekTörlése();
+        gp2.setVisible(true);
+        gp2.setManaged(true);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+            ResultSet rs = con.createStatement().executeQuery("select *from aru");
+            ObservableList data = FXCollections.observableArrayList();
+            while(rs.next()){
+                data.add(new String(rs.getString(1)));
+            }
+            tfAru_kod2.setItems(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    @FXML protected void menuDeleteClick() {
+        ElemekTörlése();
+        gp3.setVisible(true);
+        gp3.setManaged(true);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+            ResultSet rs = con.createStatement().executeQuery("select *from aru");
+            ObservableList data = FXCollections.observableArrayList();
+            while(rs.next()){
+                data.add(new String(rs.getString(1)));
+            }
+            tfAru_kod3.setItems(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+        // FAKE REST API RÉSZ JÖN
+    static String token = "5d150c6fe2aea1dcfbc9ce62d2c0e7f990c94fbd5047edbd889d0de52708e07b";
+    static HttpsURLConnection connection;
+    static void segéd1(){
+        // Setting Header Parameters
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Authorization", "Bearer " + token);
+        connection.setUseCaches(false);
+        connection.setDoOutput(true);
+    }
+    static void segéd2(String params) throws IOException {
+        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+        wr.write(params);
+        wr.close();
+        connection.connect();
+    }
+    static void segéd3(int code) throws IOException {
+        int statusCode = connection.getResponseCode();   // Getting response code
+        System.out.println("statusCode: "+statusCode);
+        if (statusCode == code) {     // If responseCode is code, data fetch successful
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuffer jsonResponseData = new StringBuffer();
+            String readLine = null;
+            while ((readLine = in.readLine()) != null)   // Append response line by line
+                jsonResponseData.append(readLine);
+            in.close();
+            System.out.println("List of users: " + jsonResponseData.toString());    // Print result in string format
+        } else {
+            System.out.println("Hiba!!!");
+        }
+        connection.disconnect();
+    }
+    static void RestGET(String ID) throws IOException {  // Get a list of users
+        System.out.println("\nGET...");
+        String url = "https://gorest.co.in/public/v1/users";
+        if(ID!=null)
+            url=url+"/"+ID;
+        URL usersUrl = new URL(url); // Url for making GET request
+        connection = (HttpsURLConnection) usersUrl.openConnection();
+        connection.setRequestMethod("GET");  // Set request method
+        if(ID!=null)
+            connection.setRequestProperty("Authorization", "Bearer " + token);
+        segéd3(HttpsURLConnection.HTTP_OK);
+    }
+    @FXML protected void rest1CreateClick() {
+        ElemekTörlése();
+        gp4.setVisible(true);
+        gp4.setManaged(true);
+    }
+    @FXML protected void rest1UpdateClick() {
+        ElemekTörlése();
+        gp5.setVisible(true);
+        gp5.setManaged(true);
+    }
+    @FXML protected void rest1DeleteClick() {
+        ElemekTörlése();
+        gp6.setVisible(true);
+        gp6.setManaged(true);
+    }
 }

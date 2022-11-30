@@ -8,36 +8,147 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ComboBox?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="hu.gamf.GrafikusController">
     <MenuBar fx:id="menuBar">
         <menus>
             <Menu text="Adatbázis">
                 <items>
-                    <MenuItem text="Create" onAction="#menuCreateClick"/>
+                    <MenuItem text="Olvas" onAction="#menuReadClick"/>
                 </items>
                 <items>
-                    <MenuItem text="Read" onAction="#menuReadClick"/>
+                    <MenuItem text="Olvas2"/>
                 </items>
                 <items>
-                    <MenuItem text="Update" onAction="#menuUpdateClick"/>
+                    <MenuItem text="Ír" onAction="#menuCreateClick"/>
                 </items>
                 <items>
-                    <MenuItem text="Delete" onAction="#menuDeleteClick"/>
+                    <MenuItem text="Módosít" onAction="#menuUpdateClick"/>
+                </items>
+                <items>
+                    <MenuItem text="Töröl" onAction="#menuDeleteClick"/>
+                </items>
+            </Menu>
+            <Menu text="Rest1">
+                <items>
+                    <MenuItem text="Create" onAction="#rest1CreateClick"/>
+                </items>
+                <items>
+                    <MenuItem text="Read" />
+                </items>
+                <items>
+                    <MenuItem text="Update" onAction="#rest1UpdateClick"/>
+                </items>
+                <items>
+                    <MenuItem text="Delete" onAction="#rest1DeleteClick"/>
+                </items>
+            </Menu>
+            <Menu text="Rest2">
+                <items>
+                    <MenuItem text="Create" />
+                </items>
+                <items>
+                    <MenuItem text="Read" />
+                </items>
+                <items>
+                    <MenuItem text="Update" />
+                </items>
+                <items>
+                    <MenuItem text="Delete" />
+                </items>
+            </Menu>
+            <Menu text="SoapKliens">
+                <items>
+                    <MenuItem text="Letöltés" />
+                </items>
+                <items>
+                    <MenuItem text="Letöltés2" />
+                </items>
+                <items>
+                    <MenuItem text="Grafikon" />
+                </items>
+            </Menu>
+            <Menu text="Adatbányászat">
+                <items>
+                    <MenuItem text="Döntési fa" />
+                </items>
+                <items>
+                    <MenuItem text="Több algoritmus" />
+                </items>
+                <items>
+                    <MenuItem text="Több algoritmus-2" />
+                </items>
+            </Menu>
+            <Menu text="Egyéb">
+                <items>
+                    <MenuItem text="Párhuzamos" />
+                </items>
+                <items>
+                    <MenuItem text="Stream" />
                 </items>
             </Menu>
         </menus>
     </MenuBar>
     <Label fx:id="lb1">Üzenet</Label>
     <GridPane fx:id="gp1" hgap="2" vgap="4">
-        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Név:</Label>
-        <TextField fx:id="tfNév" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
-        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kor:</Label>
-        <TextField fx:id="tfKor" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
-        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Súly:</Label>
-        <TextField fx:id="tfSúly" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
-        <Button onAction="#bt1Click" GridPane.rowIndex="3" GridPane.columnIndex="1" >Küldés</Button>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Kategória kód:</Label>
+        <TextField fx:id="tfKat_kod" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Név:</Label>
+        <TextField fx:id="tfNév" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Egység:</Label>
+        <TextField fx:id="tfEgyseg" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Ár:</Label>
+        <TextField fx:id="tfAr" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
+        <Button onAction="#bt1Click" GridPane.rowIndex="4" GridPane.columnIndex="1" >Küldés</Button>
+    </GridPane>
+    <GridPane fx:id="gp2" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Áru kód:</Label>
+        <ComboBox fx:id="tfAru_kod2" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kategória kód:</Label>
+        <TextField fx:id="tfKat_kod2" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Név:</Label>
+        <TextField fx:id="tfNév2" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Egység:</Label>
+        <TextField fx:id="tfEgyseg2" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="4" GridPane.columnIndex="0">Ár:</Label>
+        <TextField fx:id="tfAr2" GridPane.rowIndex="4" GridPane.columnIndex="1"></TextField>
+        <Button GridPane.rowIndex="5" GridPane.columnIndex="1" >Módosítás</Button>
+    </GridPane>
+    <GridPane fx:id="gp3" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Áru kód:</Label>
+        <ComboBox fx:id="tfAru_kod3" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
+        <Button GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
     </GridPane>
     <TableView fx:id="tv1" >
+    </TableView>
+    <GridPane fx:id="gp4" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Név:</Label>
+        <TextField fx:id="tfName" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Nem:</Label>
+        <TextField fx:id="tfGender" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Email:</Label>
+        <TextField fx:id="tfEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Státus:</Label>
+        <TextField fx:id="tfStatus" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
+        <Button GridPane.rowIndex="4" GridPane.columnIndex="1" >Küldés</Button>
+    </GridPane>
+    <GridPane fx:id="gp5" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Név:</Label>
+        <TextField fx:id="tfName2" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Nem:</Label>
+        <TextField fx:id="tfGender2" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Email:</Label>
+        <TextField fx:id="tfEmail2" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Státus:</Label>
+        <TextField fx:id="tfStatus2" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
+        <Button GridPane.rowIndex="4" GridPane.columnIndex="1" >Módosít</Button>
+    </GridPane>
+    <GridPane fx:id="gp6" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Email:</Label>
+        <ComboBox fx:id="tfEmail3" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
+        <Button GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
+    </GridPane>
+    <TableView fx:id="tv2" >
     </TableView>
 </VBox>
