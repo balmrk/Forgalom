@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="hu.gamf.GrafikusController">
+    <MenuBar fx:id="menuBar">
+        <menus>
+            <Menu text="Adatbázis">
+                <items>
+                    <MenuItem text="Create" onAction="#menuCreateClick"/>
+                </items>
+                <items>
+                    <MenuItem text="Read" onAction="#menuReadClick"/>
+                </items>
+                <items>
+                    <MenuItem text="Update" onAction="#menuUpdateClick"/>
+                </items>
+                <items>
+                    <MenuItem text="Delete" onAction="#menuDeleteClick"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+    <Label fx:id="lb1">Üzenet</Label>
+    <GridPane fx:id="gp1" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Név:</Label>
+        <TextField fx:id="tfNév" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kor:</Label>
+        <TextField fx:id="tfKor" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Súly:</Label>
+        <TextField fx:id="tfSúly" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
+        <Button onAction="#bt1Click" GridPane.rowIndex="3" GridPane.columnIndex="1" >Küldés</Button>
+    </GridPane>
+    <TableView fx:id="tv1" >
+    </TableView>
+</VBox>
