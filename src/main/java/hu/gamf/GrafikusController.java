@@ -24,9 +24,11 @@ import java.util.List;
 public class GrafikusController {
     public static String get79Resp, getAllResp;
     @FXML private Label lb1, get79, getall;
-    @FXML private GridPane gp1, gp2, gp3, gp4, gp5, gp6, gp7;
-    @FXML private TextField tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
-    @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfEmail3;
+    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7;
+    @FXML private TextField tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
+    @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfId, cbOlv2;
+    @FXML private RadioButton rbOlv2;
+    @FXML private CheckBox chbOlv2;
     @FXML private TableView tv1, tv2;
     @FXML private TableColumn<AruClass, String> aruCol;
     @FXML private TableColumn<AruClass, String> katCol;
@@ -44,6 +46,8 @@ public class GrafikusController {
         lb1.setManaged(false);  // A helyet is felszabadítja
         gp1.setVisible(false);
         gp1.setManaged(false);
+        gpOlv2.setVisible(false);
+        gpOlv2.setManaged(false);
         tv1.setVisible(false);
         tv1.setManaged(false);
         tv2.setVisible(false);
@@ -107,6 +111,30 @@ public class GrafikusController {
         System.out.println();
         t.commit();
     }
+
+    public void menuOlvas2Click(ActionEvent event) {
+        ElemekTörlése();
+        gpOlv2.setVisible(true);
+        gpOlv2.setManaged(true);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+            ResultSet rs = con.createStatement().executeQuery("select *from kategoria");
+            ObservableList data = FXCollections.observableArrayList();
+            while(rs.next()){
+                data.add(new String(rs.getString(2)));
+            }
+            cbOlv2.setItems(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void btSzur(ActionEvent event) {
+        ElemekTörlése();
+        tv1.setVisible(true);
+        tv1.setManaged(true);
+    }
+
     @FXML protected void menuUpdateClick() { //????????????????????????????????????????????????????????????
         ElemekTörlése();
         gp2.setVisible(true);
@@ -222,4 +250,5 @@ public class GrafikusController {
         gp6.setVisible(true);
         gp6.setManaged(true);
     }
+
 }

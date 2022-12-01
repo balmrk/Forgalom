@@ -9,6 +9,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.CheckBox?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="hu.gamf.GrafikusController">
     <MenuBar fx:id="menuBar">
@@ -18,7 +20,7 @@
                     <MenuItem text="Olvas" onAction="#menuReadClick"/>
                 </items>
                 <items>
-                    <MenuItem text="Olvas2"/>
+                    <MenuItem text="Olvas2" onAction="#menuOlvas2Click"/>
                 </items>
                 <items>
                     <MenuItem text="Ír" onAction="#menuCreateClick"/>
@@ -120,6 +122,17 @@
         <ComboBox fx:id="tfAru_kod3" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
         <Button GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
     </GridPane>
+    <GridPane fx:id="gpOlv2" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Szöveges beviteli mező:</Label>
+        <TextField fx:id="tfOlv2" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kategória kód:</Label>
+        <ComboBox fx:id="cbOlv2" GridPane.rowIndex="1" GridPane.columnIndex="1"></ComboBox>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Rádió gomb:</Label>
+        <RadioButton fx:id="rbOlv2" GridPane.rowIndex="2" GridPane.columnIndex="1"></RadioButton>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Jelölőnégyzet:</Label>
+        <CheckBox fx:id="chbOlv2" GridPane.rowIndex="3" GridPane.columnIndex="1"></CheckBox>
+        <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="1" >Szűrés</Button>
+    </GridPane>
     <TableView fx:id="tv1" >
     </TableView>
     <GridPane fx:id="gp4" hgap="2" vgap="4">
@@ -145,8 +158,8 @@
         <Button GridPane.rowIndex="4" GridPane.columnIndex="1" >Módosít</Button>
     </GridPane>
     <GridPane fx:id="gp6" hgap="2" vgap="4">
-        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Email:</Label>
-        <ComboBox fx:id="tfEmail3" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Id:</Label>
+        <ComboBox fx:id="tfId" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
         <Button GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
     </GridPane>
     <GridPane fx:id="gp7" hgap="2" vgap="4">
