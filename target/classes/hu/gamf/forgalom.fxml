@@ -94,15 +94,17 @@
     </MenuBar>
     <Label fx:id="lb1">Üzenet</Label>
     <GridPane fx:id="gp1" hgap="2" vgap="4">
-        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Kategória kód:</Label>
-        <TextField fx:id="tfKat_kod" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
-        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Név:</Label>
-        <TextField fx:id="tfNév" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
-        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Egység:</Label>
-        <TextField fx:id="tfEgyseg" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
-        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Ár:</Label>
-        <TextField fx:id="tfAr" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
-        <Button onAction="#bt1Click" GridPane.rowIndex="4" GridPane.columnIndex="1" >Küldés</Button>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Áru kód:</Label>
+        <TextField fx:id="tfAru_kod" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kategória kód:</Label>
+        <TextField fx:id="tfKat_kod" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Név:</Label>
+        <TextField fx:id="tfNév" GridPane.rowIndex="2" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Egység:</Label>
+        <TextField fx:id="tfEgyseg" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
+        <Label GridPane.rowIndex="4" GridPane.columnIndex="0">Ár:</Label>
+        <TextField fx:id="tfAr" GridPane.rowIndex="4" GridPane.columnIndex="1"></TextField>
+        <Button onAction="#insadatmenu" GridPane.rowIndex="5" GridPane.columnIndex="1" >Küldés</Button>
     </GridPane>
     <GridPane fx:id="gp2" hgap="2" vgap="4">
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Áru kód:</Label>
@@ -115,23 +117,23 @@
         <TextField fx:id="tfEgyseg2" GridPane.rowIndex="3" GridPane.columnIndex="1"></TextField>
         <Label GridPane.rowIndex="4" GridPane.columnIndex="0">Ár:</Label>
         <TextField fx:id="tfAr2" GridPane.rowIndex="4" GridPane.columnIndex="1"></TextField>
-        <Button GridPane.rowIndex="5" GridPane.columnIndex="1" >Módosítás</Button>
+        <Button onAction="#modadatmenu" GridPane.rowIndex="5" GridPane.columnIndex="1" >Módosítás</Button>
     </GridPane>
     <GridPane fx:id="gp3" hgap="2" vgap="4">
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Áru kód:</Label>
         <ComboBox fx:id="tfAru_kod3" GridPane.rowIndex="0" GridPane.columnIndex="1"></ComboBox>
-        <Button GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
+        <Button onAction="#deladatmenu" GridPane.rowIndex="1" GridPane.columnIndex="1" >Törlés</Button>
     </GridPane>
     <GridPane fx:id="gpOlv2" hgap="2" vgap="4">
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Szöveges beviteli mező:</Label>
         <TextField fx:id="tfOlv2" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
-        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kategória:</Label>
-        <ComboBox fx:id="cbOlv2" GridPane.rowIndex="1" GridPane.columnIndex="1"></ComboBox>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Kategória:</Label>
+        <ComboBox fx:id="cbOlv2" GridPane.rowIndex="3" GridPane.columnIndex="1"></ComboBox>
         <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Rádió gomb:</Label>
         <RadioButton fx:id="rbOlv2" GridPane.rowIndex="2" GridPane.columnIndex="1"></RadioButton>
-        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Jelölőnégyzet:</Label>
-        <CheckBox fx:id="chbOlv2" GridPane.rowIndex="3" GridPane.columnIndex="1"></CheckBox>
-        <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="1" >Szűrés</Button>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Jelölőnégyzet:</Label>
+        <CheckBox fx:id="chbOlv2" GridPane.rowIndex="1" GridPane.columnIndex="1"></CheckBox>
+        <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="0" >Szűrés</Button>
     </GridPane>
     <TableView fx:id="tv1" >
     </TableView>

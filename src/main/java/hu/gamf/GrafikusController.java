@@ -12,16 +12,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.persistence.Id;
-import javax.xml.transform.Result;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.List;
+
 interface ParhuzLbab1 {
     String lab1valt(String s);
 }
@@ -32,7 +27,7 @@ public class GrafikusController {
     public static String get79Resp, getAllResp;
     @FXML private Label lb1, get79, getall, lab1, lab2;
     @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, parhuz;
-    @FXML private TextField tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
+    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfId, cbOlv2;
     @FXML private RadioButton rbOlv2;
     @FXML private CheckBox chbOlv2;
@@ -244,8 +239,7 @@ public class GrafikusController {
         get79.setText(get79Resp);
         getall.setText(getAllResp);
     }
-    @FXML protected void rest1CreateClick(){
-
+    @FXML protected void rest1CreateClick() {
         ElemekTörlése();
         gp4.setVisible(true);
         gp4.setManaged(true);
@@ -281,7 +275,54 @@ public class GrafikusController {
 
     public void parhuzmenuClick(ActionEvent event) {
         ElemekTörlése();
+        lb1.setVisible(true);
+        lb1.setManaged(true);
+        lb1.setText("A start gombot nyomkodni kell, nem tudom miért nem mőködik automatikusan");
         parhuz.setVisible(true);
         parhuz.setManaged(true);
+    }
+
+    public void deladatmenu(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+        String sql = "delete from aru where aru_kod ?";
+        try{
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, tfAru_kod3.getValue().toString());
+            pst.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        ElemekTörlése();
+        lb1.setVisible(true);
+        lb1.setManaged(true);
+        lb1.setText(tfAru_kod3.getValue().toString() + "-s Áru kódu adat törölve lett");
+    }
+
+    public void insadatmenu(ActionEvent event) throws SQLException {
+        String querry = "INSERT INTO aru VALUES (" + tfAru_kod + "," + tfKat_kod.getText() + ",'" + tfNév.getText() + "','" + tfEgyseg.getText() + "'," + tfAr.getText() + ")";
+        executeQuerry(querry);
+        ElemekTörlése();
+        lb1.setVisible(true);
+        lb1.setManaged(true);
+        lb1.setText("A megadott adatok hozzáadva az adatbázishoz");
+    }
+
+    private void executeQuerry(String querry) throws SQLException {
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+        Statement st;
+        try{
+            st = con.createStatement();
+            st.executeUpdate(querry);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void modadatmenu(ActionEvent event) {
+        ElemekTörlése();
+        lb1.setVisible(true);
+        lb1.setManaged(true);
+        lb1.setText("Az adat módosítva lett az adatbázisban");
     }
 }
