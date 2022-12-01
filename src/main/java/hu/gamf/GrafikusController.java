@@ -15,12 +15,13 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.persistence.Id;
 import javax.xml.transform.Result;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.List;
-
 interface ParhuzLbab1 {
     String lab1valt(String s);
 }
@@ -243,7 +244,8 @@ public class GrafikusController {
         get79.setText(get79Resp);
         getall.setText(getAllResp);
     }
-    @FXML protected void rest1CreateClick() {
+    @FXML protected void rest1CreateClick(){
+
         ElemekTörlése();
         gp4.setVisible(true);
         gp4.setManaged(true);
