@@ -84,7 +84,7 @@
             </Menu>
             <Menu text="Egyéb">
                 <items>
-                    <MenuItem text="Párhuzamos" />
+                    <MenuItem text="Párhuzamos" onAction="#parhuzmenuClick" />
                 </items>
                 <items>
                     <MenuItem text="Stream" />
@@ -168,4 +168,9 @@
     </GridPane>
     <TableView fx:id="tv2" >
     </TableView>
+    <GridPane fx:id="parhuz" hgap="2" vgap="4">
+        <Label fx:id="lab1" GridPane.rowIndex="0" GridPane.columnIndex="1"></Label>
+        <Label fx:id="lab2" GridPane.rowIndex="1" GridPane.columnIndex="1"></Label>
+        <Button onAction="#parhuzbtClick" GridPane.rowIndex="2" GridPane.columnIndex="1" >Start</Button>
+    </GridPane>
 </VBox>

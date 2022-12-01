@@ -21,10 +21,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.List;
 
+interface ParhuzLbab1 {
+    String lab1valt(String s);
+}
+interface ParhuzLbab2 {
+    String lab2valt(String s);
+}
 public class GrafikusController {
     public static String get79Resp, getAllResp;
-    @FXML private Label lb1, get79, getall;
-    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7;
+    @FXML private Label lb1, get79, getall, lab1, lab2;
+    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, parhuz;
     @FXML private TextField tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfId, cbOlv2;
     @FXML private RadioButton rbOlv2;
@@ -64,6 +70,8 @@ public class GrafikusController {
         gp6.setManaged(false);
         gp7.setVisible(false);
         gp7.setManaged(false);
+        parhuz.setVisible(false);
+        parhuz.setManaged(false);
     }
     @FXML protected void menuCreateClick() {
         ElemekTörlése();
@@ -251,4 +259,27 @@ public class GrafikusController {
         gp6.setManaged(true);
     }
 
+    public void parhuzbtClick(ActionEvent event) throws InterruptedException {
+        do {
+            ParhuzLbab1 lab1str = (a) -> {
+                String str1 = lab1.getText();
+                String str2 = str1 + a;
+                return str2;
+            };
+            ParhuzLbab2 lab2str = (a) -> {
+                String str1 = lab2.getText();
+                String str2 = str1 + a;
+                return str2;
+            };
+            lab1.setText(lab1str.lab1valt("A"));
+            lab2.setText(lab2str.lab2valt("B"));
+            wait(1000);
+        } while(parhuz.isVisible());
+    }
+
+    public void parhuzmenuClick(ActionEvent event) {
+        ElemekTörlése();
+        parhuz.setVisible(true);
+        parhuz.setManaged(true);
+    }
 }
