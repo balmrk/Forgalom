@@ -135,7 +135,7 @@
         <CheckBox fx:id="chbOlv2" GridPane.rowIndex="1" GridPane.columnIndex="1"></CheckBox>
         <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="0" >Szűrés</Button>
     </GridPane>
-    <TableView fx:id="tv1" >
+    <TableView fx:id="tv1" prefHeight="560" >
     </TableView>
     <GridPane fx:id="gp4" hgap="2" vgap="4">
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Név:</Label>
