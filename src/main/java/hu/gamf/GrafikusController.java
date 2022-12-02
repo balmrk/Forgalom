@@ -1,4 +1,7 @@
 package hu.gamf;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -6,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,6 +20,8 @@ import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 interface ParhuzLbab1 {
     String lab1valt(String s);
@@ -27,7 +33,7 @@ public class GrafikusController {
     public static String get79Resp, getAllResp;
     @FXML private Label lb1, get79, getall, lab1, lab2;
     @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, parhuz;
-    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
+    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfId, cbOlv2;
     @FXML private RadioButton rbOlv2;
     @FXML private CheckBox chbOlv2;
@@ -149,7 +155,7 @@ public class GrafikusController {
             ResultSet rs = con.createStatement().executeQuery("select *from aru");
             ObservableList data = FXCollections.observableArrayList();
             while(rs.next()){
-                data.add(new String(rs.getString(1)));
+                data.add(rs.getString(1));
             }
             tfAru_kod2.setItems(data);
         }catch (Exception e){
@@ -166,7 +172,7 @@ public class GrafikusController {
             ResultSet rs = con.createStatement().executeQuery("select *from aru");
             ObservableList data = FXCollections.observableArrayList();
             while(rs.next()){
-                data.add(new String(rs.getString(1)));
+                data.add(rs.getString(1));
             }
             tfAru_kod3.setItems(data);
         }catch (Exception e){
@@ -255,29 +261,34 @@ public class GrafikusController {
         gp6.setManaged(true);
     }
 
-    public void parhuzbtClick(ActionEvent event) throws InterruptedException {
-        do {
+    public void parhuzbtClick(ActionEvent event){
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
             ParhuzLbab1 lab1str = (a) -> {
                 String str1 = lab1.getText();
                 String str2 = str1 + a;
                 return str2;
             };
+            lab1.setText(lab1str.lab1valt("A"));
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(2), ev -> {
             ParhuzLbab2 lab2str = (a) -> {
                 String str1 = lab2.getText();
                 String str2 = str1 + a;
                 return str2;
             };
-            lab1.setText(lab1str.lab1valt("A"));
             lab2.setText(lab2str.lab2valt("B"));
-            wait(1000);
-        } while(parhuz.isVisible());
+        }));
+        timeline2.setCycleCount(Animation.INDEFINITE);
+        timeline2.play();
     }
 
     public void parhuzmenuClick(ActionEvent event) {
         ElemekTörlése();
         lb1.setVisible(true);
         lb1.setManaged(true);
-        lb1.setText("A start gombot nyomkodni kell, nem tudom miért nem mőködik automatikusan");
+        lb1.setText("A felső label 1 mp-enként, míg az alsó 2 mp-enként változik");
         parhuz.setVisible(true);
         parhuz.setManaged(true);
     }
@@ -285,7 +296,7 @@ public class GrafikusController {
     public void deladatmenu(ActionEvent event) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
-        String sql = "delete from aru where aru_kod ?";
+        String sql = "DELETE FROM aru WHERE `aru`.`aru_kod` = ?";
         try{
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, tfAru_kod3.getValue().toString());
@@ -299,27 +310,41 @@ public class GrafikusController {
         lb1.setText(tfAru_kod3.getValue().toString() + "-s Áru kódu adat törölve lett");
     }
 
-    public void insadatmenu(ActionEvent event) throws SQLException {
-        String querry = "INSERT INTO aru VALUES (" + tfAru_kod + "," + tfKat_kod.getText() + ",'" + tfNév.getText() + "','" + tfEgyseg.getText() + "'," + tfAr.getText() + ")";
-        executeQuerry(querry);
+    public void insadatmenu(ActionEvent event) throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+        String sql = "INSERT INTO `aru` (`aru_kod`, `kat_kod`, `nev`, `egyseg`, `ar`) VALUES (?, ?, ?, ?, ?)";
+        try{
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(2, tfKat_kod.getText());
+            pst.setString(3, tfNév.getText());
+            pst.setString(4, tfEgyseg.getText());
+            pst.setString(5, tfAr.getText());
+            pst.setString(1, tfAru_kod.getText());
+            pst.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         ElemekTörlése();
         lb1.setVisible(true);
         lb1.setManaged(true);
         lb1.setText("A megadott adatok hozzáadva az adatbázishoz");
     }
-
-    private void executeQuerry(String querry) throws SQLException {
+    public void modadatmenu(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
-        Statement st;
+        String sql = "UPDATE `aru` SET `kat_kod` = ?, `nev` = ?, `egyseg` = ?, `ar` = ? WHERE `aru`.`aru_kod` = ?";
         try{
-            st = con.createStatement();
-            st.executeUpdate(querry);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, tfKat_kod2.getText());
+            pst.setString(2, tfNév2.getText());
+            pst.setString(3, tfEgyseg2.getText());
+            pst.setString(4, tfAr2.getText());
+            pst.setString(5, tfAru_kod2.getValue().toString());
+            pst.execute();
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void modadatmenu(ActionEvent event) {
         ElemekTörlése();
         lb1.setVisible(true);
         lb1.setManaged(true);
