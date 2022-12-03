@@ -36,8 +36,9 @@ public class GrafikusController {
     @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, parhuz;
     @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfId, cbOlv2;
-    @FXML private RadioButton rbOlv2;
-    @FXML private CheckBox chbOlv2;
+    @FXML private RadioButton rbOlv21, rbOlv22, rbOlv23;
+    @FXML ToggleGroup group;
+    @FXML private CheckBox chbOlv21, chbOlv22, chbOlv23;
     @FXML private TableView tv1, tv2;
     @FXML private TableColumn<AruClass, String> aruCol;
     @FXML private TableColumn<AruClass, String> katCol;
@@ -155,22 +156,151 @@ public class GrafikusController {
         nevCol.setCellValueFactory(new PropertyValueFactory<>("nev"));
         egysegCol.setCellValueFactory(new PropertyValueFactory<>("egyseg"));
         arCol.setCellValueFactory(new PropertyValueFactory<>("ar"));
+
+
     }
     public void btSzur(ActionEvent event) {
+
+        ToggleGroup group = new ToggleGroup();
+        rbOlv21.setToggleGroup(group);
+        rbOlv22.setToggleGroup(group);
+        rbOlv23.setToggleGroup(group);
+
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
         tv1.getItems().clear();
-        //SELECT * FROM `aru` WHERE nev LIKE '%string%'
+        //szöveg mező
         String kereses="FROM AruClass";
         String szoveg="";
+        String radio ="";
+        String check="";
         if (!tfOlv2.getText().isEmpty()){
             szoveg = tfOlv2.getText();
             kereses+=" WHERE nev LIKE :a";
+        }else {
+            szoveg="";
         }
-        System.out.println(kereses);
+
+        //================================
+        //==========radiobutton===========
+        //================================
+
+        Boolean rf= false;
+        Boolean tf= false;
+        try {
+            if (!tfOlv2.getText().isEmpty()){
+                radio+=" AND ";
+                tf=true;
+            }else {
+                radio+=" WHERE ";
+            }
+            RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
+            String radioValue = selectedRadioButton.getId();
+            if (radioValue.equals("rbOlv21")){
+                radio+="ar <200";
+                rf=true;
+            } else if (radioValue.equals("rbOlv22")) {
+                radio+="ar >=200 AND ar <500";
+                rf=true;
+            }else if (radioValue.equals("rbOlv23")){
+                radio+="ar >500";
+                rf=true;
+            }else{
+                radio="";
+            }
+            System.out.println(radioValue);
+            System.out.println(radio);
+        }catch (Exception e){
+            System.out.println("Nincs kiválasztva radioButton");
+        };
+        if (!rf){
+            radio="";
+        }
+
+        //================================
+        //============checkbox============
+        //================================
+
+        Boolean cf=false;
+        if (tfOlv2.getText().isEmpty()){
+            check=" WHERE ";
+        }else {
+            check=" AND ";
+        }
+        if(rf){
+            check=" AND ";
+        }
+        if (chbOlv21.isSelected()){
+            if (chbOlv22.isSelected() ||chbOlv23.isSelected()){
+                check+="(egyseg = 'liter'";
+            }else{
+                check+="egyseg = 'liter'";
+            }
+            cf=true;
+        }
+        if (chbOlv22.isSelected()){
+            if (chbOlv21.isSelected()){
+                if (chbOlv23.isSelected()){
+                    check += " OR egyseg='kg'";
+
+                }else {
+                    check += " OR egyseg='kg')";
+                }
+            }else{
+                if (chbOlv23.isSelected()){
+                    check+="(egyseg='kg'";
+
+                }else {
+                    check+="egyseg='kg'";
+                }
+            }
+            cf=true;
+
+        }
+        if (chbOlv23.isSelected()){
+            if (chbOlv21.isSelected() || chbOlv22.isSelected()) {
+                check += " OR egyseg = 'darab')";
+            }else {
+                check += "egyseg = 'darab'";
+
+            }
+            cf=true;
+
+        }
+        if(!cf){
+            check="";
+        }
+        //================================
+        //============combobox============
+        //================================
+        int valcb=0;
+        List<Object> cbl = cbOlv2.getItems();
+
+        String combo="";
+        if (cbOlv2.getValue() != null) {
+            for (int i = 0; i < cbl.size(); i++) {
+                //System.out.println(i + " : " + cbl.get(i));
+                if (cbOlv2.getValue().toString() == cbl.get(i)) {
+                    valcb = i + 1;
+                }
+            }
+            if (!tf && !cf && !rf){
+                combo+=" WHERE Kat_kod='"+valcb+"'";
+            }else {
+                combo+=" AND Kat_kod='"+valcb+"'";
+            }
+        }
+        System.out.println("combo: "+combo);
+        kereses+=radio+check+combo;
+        System.out.println("Query: " + kereses);
+        //Query
         Query q=session.createQuery(kereses);
-        q.setString("a",'%'+szoveg+'%');
-        //q.setParameter("a",kereses);
+        try{
+            q.setString("a",'%'+szoveg+'%');
+        }catch (Exception e){
+            System.out.println("Nincs szöveges keresés");
+        }
+
         List<AruClass> lista = q.list();
         System.out.println(lista.size());
         for(AruClass aru:lista)
