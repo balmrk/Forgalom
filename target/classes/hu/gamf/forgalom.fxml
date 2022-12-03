@@ -126,13 +126,20 @@
     </GridPane>
     <GridPane fx:id="gpOlv2" hgap="2" vgap="4">
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Szöveges beviteli mező:</Label>
-        <TextField fx:id="tfOlv2" GridPane.rowIndex="0" GridPane.columnIndex="1"></TextField>
+        <TextField fx:id="tfOlv2" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="5"></TextField>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Ár:</Label>
+        <RadioButton fx:id="rbOlv21" GridPane.rowIndex="2" GridPane.columnIndex="1">0-199</RadioButton>
+        <RadioButton fx:id="rbOlv22" GridPane.rowIndex="2" GridPane.columnIndex="2">200-499</RadioButton>
+        <RadioButton fx:id="rbOlv23" GridPane.rowIndex="2" GridPane.columnIndex="3">500+</RadioButton>
+
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kategória:</Label>
+        <CheckBox fx:id="chbOlv21" GridPane.rowIndex="1" GridPane.columnIndex="1">liter</CheckBox>
+        <CheckBox fx:id="chbOlv22" GridPane.rowIndex="1" GridPane.columnIndex="2">kg</CheckBox>
+        <CheckBox fx:id="chbOlv23" GridPane.rowIndex="1" GridPane.columnIndex="3">darab</CheckBox>
+        <CheckBox fx:id="chbOlv24" GridPane.rowIndex="1" GridPane.columnIndex="4">doboz</CheckBox>
+
         <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Kategória:</Label>
         <ComboBox fx:id="cbOlv2" GridPane.rowIndex="3" GridPane.columnIndex="1"></ComboBox>
-        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Rádió gomb:</Label>
-        <RadioButton fx:id="rbOlv2" GridPane.rowIndex="2" GridPane.columnIndex="1"></RadioButton>
-        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Jelölőnégyzet:</Label>
-        <CheckBox fx:id="chbOlv2" GridPane.rowIndex="1" GridPane.columnIndex="1"></CheckBox>
         <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="0" >Szűrés</Button>
     </GridPane>
     <TableView fx:id="tv1" prefHeight="560" >

@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -138,11 +139,44 @@ public class GrafikusController {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-    public void btSzur(ActionEvent event) {
-        ElemekTörlése();
+
         tv1.setVisible(true);
         tv1.setManaged(true);
+        tv1.getColumns().removeAll(tv1.getColumns());
+        aruCol = new TableColumn("aru_kod");
+        katCol = new TableColumn("kat_kod");
+        nevCol = new TableColumn("nev");
+        egysegCol = new TableColumn("egyseg");
+        arCol = new TableColumn("ar");
+
+        tv1.getColumns().addAll(aruCol, katCol, nevCol, egysegCol,arCol);
+        aruCol.setCellValueFactory(new PropertyValueFactory<>("aru_kod"));
+        katCol.setCellValueFactory(new PropertyValueFactory<>("kat_kod"));
+        nevCol.setCellValueFactory(new PropertyValueFactory<>("nev"));
+        egysegCol.setCellValueFactory(new PropertyValueFactory<>("egyseg"));
+        arCol.setCellValueFactory(new PropertyValueFactory<>("ar"));
+    }
+    public void btSzur(ActionEvent event) {
+        Session session = factory.openSession();
+        Transaction t = session.beginTransaction();
+        tv1.getItems().clear();
+        //SELECT * FROM `aru` WHERE nev LIKE '%string%'
+        String kereses="FROM AruClass";
+        String szoveg="";
+        if (!tfOlv2.getText().isEmpty()){
+            szoveg = tfOlv2.getText();
+            kereses+=" WHERE nev LIKE :a";
+        }
+        System.out.println(kereses);
+        Query q=session.createQuery(kereses);
+        q.setString("a",'%'+szoveg+'%');
+        //q.setParameter("a",kereses);
+        List<AruClass> lista = q.list();
+        System.out.println(lista.size());
+        for(AruClass aru:lista)
+            tv1.getItems().add(aru);
+        System.out.println();
+        t.commit();
     }
 
     @FXML protected void menuUpdateClick() { //????????????????????????????????????????????????????????????
