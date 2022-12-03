@@ -47,6 +47,13 @@ public class rest1DTO {
         this.status = status;
     }
 
+    public rest1DTO(String name, String email, String gender, String status) {
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.status = status;
+    }
+
     public rest1DTO() {
     }
 

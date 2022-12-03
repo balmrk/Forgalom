@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.binding.ObjectExpression;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,15 +38,16 @@ interface ParhuzLbab2 {
 }
 public class GrafikusController {
     public static String get79Resp, getAllResp;
-    @FXML private Label lb1, get79, getall, lab1, lab2;
-    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, parhuz;
-    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2;
-    @FXML private ComboBox tfAru_kod2, tfAru_kod3, tfId, cbOlv2;
-    @FXML private RadioButton rbOlv21, rbOlv22, rbOlv23;
+    @FXML private Label lb1, get79, getall, lab1, lab2, tfId, valaszr1del;
+    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, gp42, parhuz;
+    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2, tf2id, tf2name, tf2tipus, r1delid;
+    @FXML private ComboBox tfAru_kod2, tfAru_kod3, cbOlv2;
+    @FXML private RadioButton rbOlv21, rbOlv22, rbOlv23, tf2dijazott;
     @FXML ToggleGroup group;
     @FXML private CheckBox chbOlv21, chbOlv22, chbOlv23;
-    @FXML private TableView tv1, tv2, tvr1;
+    @FXML private TableView tv1, tv2, tvr1, tvr2;
     @FXML private TableColumn<rest1DTO, String> r1_id, r1_name, r1_email, r1_gender, r1_status;
+    @FXML private TableColumn<rest2DTO,String> r2_id,r2_nev,r2_tipus,r2_dijazott;
     @FXML private TableColumn<AruClass, String> aruCol;
     @FXML private TableColumn<AruClass, String> katCol;
     @FXML private TableColumn<AruClass, String> nevCol;
@@ -66,10 +68,12 @@ public class GrafikusController {
         gpOlv2.setManaged(false);
         tv1.setVisible(false);
         tv1.setManaged(false);
-        tv2.setVisible(false);
-        tv2.setManaged(false);
         tvr1.setVisible(false);
         tvr1.setManaged(false);
+        tv2.setVisible(false);
+        tv2.setManaged(false);
+        tvr2.setVisible(false);
+        tvr2.setManaged(false);
         gp2.setVisible(false);
         gp2.setManaged(false);
         gp3.setVisible(false);
@@ -82,6 +86,8 @@ public class GrafikusController {
         gp6.setManaged(false);
         gp7.setVisible(false);
         gp7.setManaged(false);
+        gp42.setVisible(false);
+        gp42.setManaged(false);
         parhuz.setVisible(false);
         parhuz.setManaged(false);
     }
@@ -457,71 +463,6 @@ public class GrafikusController {
 
     public static String rest1_url = "https://gorest.co.in/public/v2/users";
     static String token = "5d150c6fe2aea1dcfbc9ce62d2c0e7f990c94fbd5047edbd889d0de52708e07b";
-
-    static void rest1Get() throws IOException {
-    }
-    /*
-        static HttpsURLConnection connection;
-        static void segéd1(){
-            // Setting Header Parameters
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Authorization", "Bearer " + token);
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-        }
-        static void segéd2(String params) throws IOException {
-            BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
-            wr.write(params);
-            wr.close();
-            connection.connect();
-        }
-        static void segéd3(int code, String id) throws IOException {
-            int statusCode = connection.getResponseCode();   // Getting response code
-            System.out.println("statusCode: "+statusCode);
-            if (statusCode == code) {     // If responseCode is code, data fetch successful
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuffer jsonResponseData = new StringBuffer();
-                String readLine = null;
-                while ((readLine = in.readLine()) != null) {   // Append response line by line
-                    jsonResponseData.append(readLine);
-                }
-                in.close();
-                if (id!=null) {
-                    get79Resp = jsonResponseData.toString();
-                    System.out.println("List of users: " + get79Resp);
-                }else{
-                    getAllResp = jsonResponseData.toString();
-                    System.out.println("User 79: " + getAllResp);
-                }
-            } else {
-                System.out.println("Hiba!!!");
-            }
-            connection.disconnect();
-        }
-        static void RestGET(String ID) throws IOException {  // Get a list of users
-            System.out.println("\nGET...");
-            if(ID!=null)
-                url=url+"/"+ID;
-            URL usersUrl = new URL(url); // Url for making GET request
-            connection = (HttpsURLConnection) usersUrl.openConnection();
-            connection.setRequestMethod("GET");  // Set request method
-            if(ID!=null)
-                connection.setRequestProperty("Authorization", "Bearer " + token);
-            segéd3(HttpsURLConnection.HTTP_OK,ID);
-        }
-
-        @FXML protected void rest1GET() throws IOException {
-            ElemekTörlése();
-            gp7.setVisible(true);
-            gp7.setManaged(true);
-
-            RestGET(null);
-            RestGET("79");
-
-            get79.setText(get79Resp);
-            getall.setText(getAllResp);
-        }
-        */
     @FXML protected void rest1ReadClick() throws IOException {
         ElemekTörlése();
         tvr1.setVisible(true);
@@ -540,7 +481,6 @@ public class GrafikusController {
         r1_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         r1_status.setCellValueFactory(new PropertyValueFactory<>("status"));
         tvr1.getItems().clear();
-        //rest1Get();
 
         ObjectMapper om = new ObjectMapper();
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
@@ -548,24 +488,62 @@ public class GrafikusController {
         });
 
         for (rest1DTO b : a){
-            System.out.println(b.getName());
             tvr1.getItems().add(b);
         }
     }
-    @FXML protected void rest1CreateClick() {
+    @FXML protected void rest1CreateClick() throws IOException {
         ElemekTörlése();
         gp4.setVisible(true);
         gp4.setManaged(true);
+    }
+    public void r1Post() throws IOException {
+        URL r1url = new URL(rest1_url);
+        HttpsURLConnection conn = (HttpsURLConnection) r1url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Bearer " + token);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setUseCaches(false);
+        conn.setDoOutput(true);
+
+
+
+        rest1DTO dto = new rest1DTO(tfName.getText(),tfGender.getText(),tfEmail.getText(),tfStatus.getText());
+        System.out.println(dto.getName()+" "+dto.getEmail()+" "+dto.getGender()+" "+dto.getStatus());
+
+        ObjectMapper om = new ObjectMapper();
+        String json = om.writeValueAsString(dto);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+        bw.write(json);
+        bw.close();
+        System.out.println("kód: "+conn.getResponseCode());
+        System.out.println("üzenet: "+conn.getResponseMessage());
+        conn.connect();
+        conn.disconnect();
     }
     @FXML protected void rest1UpdateClick() {
         ElemekTörlése();
         gp5.setVisible(true);
         gp5.setManaged(true);
     }
-    @FXML protected void rest1DeleteClick() {
+    @FXML protected void rest1DeleteClick() throws IOException {
         ElemekTörlése();
         gp6.setVisible(true);
         gp6.setManaged(true);
+        String id="";
+        String url="https://gorest.co.in/public/v2/users/";
+        id=r1delid.getText();
+        url= url+id;
+        URL url2 = new URL(url);
+        HttpsURLConnection con = (HttpsURLConnection) url2.openConnection();
+        con.setDoOutput(true);
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        con.setRequestMethod("DELETE");
+        con.setRequestProperty("Authorization", "Bearer " + token);
+        con.connect();
+        String resp = con.getResponseCode()+" "+con.getResponseMessage();
+        tfId.setText(resp);
+        valaszr1del.setText("Válasz a "+id+"-es user törlésére");
+        System.out.println(resp);
     }
 
     //==================================================================================================================
@@ -574,7 +552,74 @@ public class GrafikusController {
     //==================================================================================================================
     //==================================================================================================================
 
+    public static String rest2_url = "https://cukraszda.azurewebsites.net/sutik/all";
+    @FXML protected void rest2ReadClick() throws IOException {
+        ElemekTörlése();
+        tvr2.setVisible(true);
+        tvr2.setManaged(true);
+        tvr2.getColumns().removeAll(tv2.getColumns());
+        r2_id = new TableColumn("ID");
+        r2_nev = new TableColumn("NÉV");
+        r2_tipus = new TableColumn("TÍPUS");
+        r2_dijazott = new TableColumn("DÍJAZOTT?");
 
+        tvr2.getColumns().addAll(r2_id,r2_nev,r2_tipus,r2_dijazott);
+        r2_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        r2_nev.setCellValueFactory(new PropertyValueFactory<>("nev"));
+        r2_tipus.setCellValueFactory(new PropertyValueFactory<>("tipus"));
+        r2_dijazott.setCellValueFactory(new PropertyValueFactory<>("dijazott"));
+        tvr2.getItems().clear();
+
+        ObjectMapper om = new ObjectMapper();
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        List<rest2DTO> a = om.readValue(new URL(rest2_url), new TypeReference<List<rest2DTO>>() {
+        });
+
+        for (rest2DTO b : a){
+            tvr2.getItems().add(b);
+        }
+    }
+    @FXML protected void rest2CreateClick() throws IOException {
+        ElemekTörlése();
+        gp42.setVisible(true);
+        gp42.setManaged(true);
+    }
+    public void r2Post() throws IOException {
+        URL r2url = new URL(rest2_url);
+        HttpsURLConnection conn = (HttpsURLConnection) r2url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setUseCaches(false);
+        conn.setDoOutput(true);
+
+        rest2DTO dto = new rest2DTO(Integer.parseInt(tf2id.getText()),tf2name.getText(),tf2tipus.getText(),tf2dijazott.isSelected());
+        System.out.println(dto.getId()+" "+dto.getNev()+" "+dto.getTipus()+" "+dto.isDijazott());
+
+        ObjectMapper om = new ObjectMapper();
+        String json = om.writeValueAsString(dto);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+        bw.write(json);
+        bw.close();
+        System.out.println("kód: "+conn.getResponseCode());
+        System.out.println("üzenet: "+conn.getResponseMessage());
+        conn.connect();
+        conn.disconnect();
+    }
+    @FXML protected void rest2DeleteClick() throws IOException {
+        ElemekTörlése();
+        gp6.setVisible(true);
+        gp6.setManaged(true);
+        String id="3";
+        String url="https://cukraszda.azurewebsites.net/sutik/";
+
+        url= url+id;
+        URL url2 = new URL(url);
+        HttpsURLConnection con = (HttpsURLConnection) url2.openConnection();
+        con.setDoOutput(true);
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        con.setRequestMethod("DELETE");
+        con.connect();
+    }
 
     //==================================================================================================================
     //==================================================================================================================
