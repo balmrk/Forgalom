@@ -37,7 +37,7 @@
                     <MenuItem text="Create" onAction="#rest1CreateClick"/>
                 </items>
                 <items>
-                    <MenuItem text="Read" onAction="#rest1GET"/>
+                    <MenuItem text="Read" onAction="#rest1ReadClick"/>
                 </items>
                 <items>
                     <MenuItem text="Update" onAction="#rest1UpdateClick"/>
@@ -135,8 +135,6 @@
         <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kiszerelés szerint:</Label>
         <CheckBox fx:id="chbOlv21" GridPane.rowIndex="1" GridPane.columnIndex="1">liter</CheckBox>
         <CheckBox fx:id="chbOlv22" GridPane.rowIndex="1" GridPane.columnIndex="2">kg</CheckBox>
-        <CheckBox fx:id="chbOlv23" GridPane.rowIndex="1" GridPane.columnIndex="3">darab</CheckBox>
-
         <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Kategória szerint:</Label>
         <ComboBox fx:id="cbOlv2" GridPane.rowIndex="3" GridPane.columnIndex="1"></ComboBox>
         <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="0" >Szűrés</Button>
@@ -175,6 +173,8 @@
         <Label fx:id="getall" GridPane.rowIndex="1" GridPane.columnIndex="0">https://gorest.co.in/public/v1/users</Label>
     </GridPane>
     <TableView fx:id="tv2" >
+    </TableView>
+    <TableView fx:id="tvr1" >
     </TableView>
     <GridPane fx:id="parhuz" hgap="2" vgap="4">
         <Label fx:id="lab1" GridPane.rowIndex="0" GridPane.columnIndex="1"></Label>

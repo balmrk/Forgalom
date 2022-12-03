@@ -1,4 +1,7 @@
 package hu.gamf;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,6 +21,7 @@ import org.hibernate.query.Query;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,7 +44,8 @@ public class GrafikusController {
     @FXML private RadioButton rbOlv21, rbOlv22, rbOlv23;
     @FXML ToggleGroup group;
     @FXML private CheckBox chbOlv21, chbOlv22, chbOlv23;
-    @FXML private TableView tv1, tv2;
+    @FXML private TableView tv1, tv2, tvr1;
+    @FXML private TableColumn<rest1DTO, String> r1_id, r1_name, r1_email, r1_gender, r1_status;
     @FXML private TableColumn<AruClass, String> aruCol;
     @FXML private TableColumn<AruClass, String> katCol;
     @FXML private TableColumn<AruClass, String> nevCol;
@@ -63,6 +68,8 @@ public class GrafikusController {
         tv1.setManaged(false);
         tv2.setVisible(false);
         tv2.setManaged(false);
+        tvr1.setVisible(false);
+        tvr1.setManaged(false);
         gp2.setVisible(false);
         gp2.setManaged(false);
         gp3.setVisible(false);
@@ -447,66 +454,103 @@ public class GrafikusController {
     //============================================GOREST.IN=============================================================
     //==================================================================================================================
     //==================================================================================================================
+
+    public static String rest1_url = "https://gorest.co.in/public/v2/users";
     static String token = "5d150c6fe2aea1dcfbc9ce62d2c0e7f990c94fbd5047edbd889d0de52708e07b";
-    static HttpsURLConnection connection;
-    static void segéd1(){
-        // Setting Header Parameters
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Bearer " + token);
-        connection.setUseCaches(false);
-        connection.setDoOutput(true);
+
+    static void rest1Get() throws IOException {
     }
-    static void segéd2(String params) throws IOException {
-        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
-        wr.write(params);
-        wr.close();
-        connection.connect();
-    }
-    static void segéd3(int code, String id) throws IOException {
-        int statusCode = connection.getResponseCode();   // Getting response code
-        System.out.println("statusCode: "+statusCode);
-        if (statusCode == code) {     // If responseCode is code, data fetch successful
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer jsonResponseData = new StringBuffer();
-            String readLine = null;
-            while ((readLine = in.readLine()) != null) {   // Append response line by line
-                jsonResponseData.append(readLine);
-            }
-            in.close();
-            if (id!=null) {
-                get79Resp = jsonResponseData.toString();
-                System.out.println("List of users: " + get79Resp);
-            }else{
-                getAllResp = jsonResponseData.toString();
-                System.out.println("User 79: " + getAllResp);
-            }
-        } else {
-            System.out.println("Hiba!!!");
-        }
-        connection.disconnect();
-    }
-    static void RestGET(String ID) throws IOException {  // Get a list of users
-        System.out.println("\nGET...");
-        String url = "https://gorest.co.in/public/v1/users";
-        if(ID!=null)
-            url=url+"/"+ID;
-        URL usersUrl = new URL(url); // Url for making GET request
-        connection = (HttpsURLConnection) usersUrl.openConnection();
-        connection.setRequestMethod("GET");  // Set request method
-        if(ID!=null)
+    /*
+        static HttpsURLConnection connection;
+        static void segéd1(){
+            // Setting Header Parameters
+            connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer " + token);
-        segéd3(HttpsURLConnection.HTTP_OK,ID);
-    }
-    @FXML protected void rest1GET() throws IOException {
+            connection.setUseCaches(false);
+            connection.setDoOutput(true);
+        }
+        static void segéd2(String params) throws IOException {
+            BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            wr.write(params);
+            wr.close();
+            connection.connect();
+        }
+        static void segéd3(int code, String id) throws IOException {
+            int statusCode = connection.getResponseCode();   // Getting response code
+            System.out.println("statusCode: "+statusCode);
+            if (statusCode == code) {     // If responseCode is code, data fetch successful
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuffer jsonResponseData = new StringBuffer();
+                String readLine = null;
+                while ((readLine = in.readLine()) != null) {   // Append response line by line
+                    jsonResponseData.append(readLine);
+                }
+                in.close();
+                if (id!=null) {
+                    get79Resp = jsonResponseData.toString();
+                    System.out.println("List of users: " + get79Resp);
+                }else{
+                    getAllResp = jsonResponseData.toString();
+                    System.out.println("User 79: " + getAllResp);
+                }
+            } else {
+                System.out.println("Hiba!!!");
+            }
+            connection.disconnect();
+        }
+        static void RestGET(String ID) throws IOException {  // Get a list of users
+            System.out.println("\nGET...");
+            if(ID!=null)
+                url=url+"/"+ID;
+            URL usersUrl = new URL(url); // Url for making GET request
+            connection = (HttpsURLConnection) usersUrl.openConnection();
+            connection.setRequestMethod("GET");  // Set request method
+            if(ID!=null)
+                connection.setRequestProperty("Authorization", "Bearer " + token);
+            segéd3(HttpsURLConnection.HTTP_OK,ID);
+        }
+
+        @FXML protected void rest1GET() throws IOException {
+            ElemekTörlése();
+            gp7.setVisible(true);
+            gp7.setManaged(true);
+
+            RestGET(null);
+            RestGET("79");
+
+            get79.setText(get79Resp);
+            getall.setText(getAllResp);
+        }
+        */
+    @FXML protected void rest1ReadClick() throws IOException {
         ElemekTörlése();
-        gp7.setVisible(true);
-        gp7.setManaged(true);
+        tvr1.setVisible(true);
+        tvr1.setManaged(true);
+        tvr1.getColumns().removeAll(tv1.getColumns());
+        r1_id = new TableColumn("ID");
+        r1_name = new TableColumn("NÉV");
+        r1_email = new TableColumn("EMAIL");
+        r1_gender = new TableColumn("GENDER");
+        r1_status = new TableColumn("STATUS");
 
-        RestGET(null);
-        RestGET("79");
+        tvr1.getColumns().addAll(r1_id,r1_name,r1_email,r1_gender,r1_status);
+        r1_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        r1_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        r1_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        r1_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        r1_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tvr1.getItems().clear();
+        //rest1Get();
 
-        get79.setText(get79Resp);
-        getall.setText(getAllResp);
+        ObjectMapper om = new ObjectMapper();
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        List<rest1DTO> a = om.readValue(new URL(rest1_url), new TypeReference<List<rest1DTO>>() {
+        });
+
+        for (rest1DTO b : a){
+            System.out.println(b.getName());
+            tvr1.getItems().add(b);
+        }
     }
     @FXML protected void rest1CreateClick() {
         ElemekTörlése();
