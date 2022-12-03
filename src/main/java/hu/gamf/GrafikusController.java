@@ -344,119 +344,6 @@ public class GrafikusController {
             e.printStackTrace();
         }
     }
-    //==================================================================================================================
-    //==================================================================================================================
-    //============================================GOREST.IN=============================================================
-    //==================================================================================================================
-    //==================================================================================================================
-    static String token = "5d150c6fe2aea1dcfbc9ce62d2c0e7f990c94fbd5047edbd889d0de52708e07b";
-    static HttpsURLConnection connection;
-    static void segéd1(){
-        // Setting Header Parameters
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Bearer " + token);
-        connection.setUseCaches(false);
-        connection.setDoOutput(true);
-    }
-    static void segéd2(String params) throws IOException {
-        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
-        wr.write(params);
-        wr.close();
-        connection.connect();
-    }
-    static void segéd3(int code, String id) throws IOException {
-        int statusCode = connection.getResponseCode();   // Getting response code
-        System.out.println("statusCode: "+statusCode);
-        if (statusCode == code) {     // If responseCode is code, data fetch successful
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer jsonResponseData = new StringBuffer();
-            String readLine = null;
-            while ((readLine = in.readLine()) != null) {   // Append response line by line
-                jsonResponseData.append(readLine);
-            }
-            in.close();
-            if (id!=null) {
-                get79Resp = jsonResponseData.toString();
-                System.out.println("List of users: " + get79Resp);
-            }else{
-                getAllResp = jsonResponseData.toString();
-                System.out.println("User 79: " + getAllResp);
-            }
-        } else {
-            System.out.println("Hiba!!!");
-        }
-        connection.disconnect();
-    }
-    static void RestGET(String ID) throws IOException {  // Get a list of users
-        System.out.println("\nGET...");
-        String url = "https://gorest.co.in/public/v1/users";
-        if(ID!=null)
-            url=url+"/"+ID;
-        URL usersUrl = new URL(url); // Url for making GET request
-        connection = (HttpsURLConnection) usersUrl.openConnection();
-        connection.setRequestMethod("GET");  // Set request method
-        if(ID!=null)
-            connection.setRequestProperty("Authorization", "Bearer " + token);
-        segéd3(HttpsURLConnection.HTTP_OK,ID);
-    }
-    @FXML protected void rest1GET() throws IOException {
-        ElemekTörlése();
-        gp7.setVisible(true);
-        gp7.setManaged(true);
-
-        RestGET(null);
-        RestGET("79");
-
-        get79.setText(get79Resp);
-        getall.setText(getAllResp);
-    }
-    @FXML protected void rest1CreateClick() {
-        ElemekTörlése();
-        gp4.setVisible(true);
-        gp4.setManaged(true);
-    }
-    @FXML protected void rest1UpdateClick() {
-        ElemekTörlése();
-        gp5.setVisible(true);
-        gp5.setManaged(true);
-    }
-    @FXML protected void rest1DeleteClick() {
-        ElemekTörlése();
-        gp6.setVisible(true);
-        gp6.setManaged(true);
-    }
-
-    public void parhuzbtClick(ActionEvent event){
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
-            ParhuzLbab1 lab1str = (a) -> {
-                String str1 = lab1.getText();
-                String str2 = str1 + a;
-                return str2;
-            };
-            lab1.setText(lab1str.lab1valt("A"));
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(2), ev -> {
-            ParhuzLbab2 lab2str = (a) -> {
-                String str1 = lab2.getText();
-                String str2 = str1 + a;
-                return str2;
-            };
-            lab2.setText(lab2str.lab2valt("B"));
-        }));
-        timeline2.setCycleCount(Animation.INDEFINITE);
-        timeline2.play();
-    }
-
-    public void parhuzmenuClick(ActionEvent event) {
-        ElemekTörlése();
-        lb1.setVisible(true);
-        lb1.setManaged(true);
-        lb1.setText("A felső label 1 mp-enként, míg az alsó 2 mp-enként változik");
-        parhuz.setVisible(true);
-        parhuz.setManaged(true);
-    }
 
     public void deladatmenu(ActionEvent event) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -555,4 +442,131 @@ public class GrafikusController {
         lb1.setManaged(true);
         lb1.setText("Az adat módosítva lett az adatbázisban");
     }
+    //==================================================================================================================
+    //==================================================================================================================
+    //============================================GOREST.IN=============================================================
+    //==================================================================================================================
+    //==================================================================================================================
+    static String token = "5d150c6fe2aea1dcfbc9ce62d2c0e7f990c94fbd5047edbd889d0de52708e07b";
+    static HttpsURLConnection connection;
+    static void segéd1(){
+        // Setting Header Parameters
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Authorization", "Bearer " + token);
+        connection.setUseCaches(false);
+        connection.setDoOutput(true);
+    }
+    static void segéd2(String params) throws IOException {
+        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+        wr.write(params);
+        wr.close();
+        connection.connect();
+    }
+    static void segéd3(int code, String id) throws IOException {
+        int statusCode = connection.getResponseCode();   // Getting response code
+        System.out.println("statusCode: "+statusCode);
+        if (statusCode == code) {     // If responseCode is code, data fetch successful
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuffer jsonResponseData = new StringBuffer();
+            String readLine = null;
+            while ((readLine = in.readLine()) != null) {   // Append response line by line
+                jsonResponseData.append(readLine);
+            }
+            in.close();
+            if (id!=null) {
+                get79Resp = jsonResponseData.toString();
+                System.out.println("List of users: " + get79Resp);
+            }else{
+                getAllResp = jsonResponseData.toString();
+                System.out.println("User 79: " + getAllResp);
+            }
+        } else {
+            System.out.println("Hiba!!!");
+        }
+        connection.disconnect();
+    }
+    static void RestGET(String ID) throws IOException {  // Get a list of users
+        System.out.println("\nGET...");
+        String url = "https://gorest.co.in/public/v1/users";
+        if(ID!=null)
+            url=url+"/"+ID;
+        URL usersUrl = new URL(url); // Url for making GET request
+        connection = (HttpsURLConnection) usersUrl.openConnection();
+        connection.setRequestMethod("GET");  // Set request method
+        if(ID!=null)
+            connection.setRequestProperty("Authorization", "Bearer " + token);
+        segéd3(HttpsURLConnection.HTTP_OK,ID);
+    }
+    @FXML protected void rest1GET() throws IOException {
+        ElemekTörlése();
+        gp7.setVisible(true);
+        gp7.setManaged(true);
+
+        RestGET(null);
+        RestGET("79");
+
+        get79.setText(get79Resp);
+        getall.setText(getAllResp);
+    }
+    @FXML protected void rest1CreateClick() {
+        ElemekTörlése();
+        gp4.setVisible(true);
+        gp4.setManaged(true);
+    }
+    @FXML protected void rest1UpdateClick() {
+        ElemekTörlése();
+        gp5.setVisible(true);
+        gp5.setManaged(true);
+    }
+    @FXML protected void rest1DeleteClick() {
+        ElemekTörlése();
+        gp6.setVisible(true);
+        gp6.setManaged(true);
+    }
+
+    //==================================================================================================================
+    //==================================================================================================================
+    //===============================================REST 2=============================================================
+    //==================================================================================================================
+    //==================================================================================================================
+
+
+
+    //==================================================================================================================
+    //==================================================================================================================
+    //============================================PÁRHUZAMOS PROG=======================================================
+    //==================================================================================================================
+    //==================================================================================================================
+    public void parhuzbtClick(ActionEvent event){
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+            ParhuzLbab1 lab1str = (a) -> {
+                String str1 = lab1.getText();
+                String str2 = str1 + a;
+                return str2;
+            };
+            lab1.setText(lab1str.lab1valt("A"));
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(2), ev -> {
+            ParhuzLbab2 lab2str = (a) -> {
+                String str1 = lab2.getText();
+                String str2 = str1 + a;
+                return str2;
+            };
+            lab2.setText(lab2str.lab2valt("B"));
+        }));
+        timeline2.setCycleCount(Animation.INDEFINITE);
+        timeline2.play();
+    }
+
+    public void parhuzmenuClick(ActionEvent event) {
+        ElemekTörlése();
+        lb1.setVisible(true);
+        lb1.setManaged(true);
+        lb1.setText("A felső label 1 mp-enként, míg az alsó 2 mp-enként változik");
+        parhuz.setVisible(true);
+        parhuz.setManaged(true);
+    }
+
 }
