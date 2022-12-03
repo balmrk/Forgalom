@@ -38,7 +38,7 @@ interface ParhuzLbab2 {
 }
 public class GrafikusController {
     public static String get79Resp, getAllResp;
-    @FXML private Label lb1, get79, getall, lab1, lab2, tfId, valaszr1del;
+    @FXML private Label lb1, get79, getall, lab1, lab2, tfId, valaszr1del,lb3str,lb2str;
     @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, gp42, parhuz;
     @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2, tf2id, tf2name, tf2tipus, r1delid;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, cbOlv2;
@@ -64,6 +64,10 @@ public class GrafikusController {
         lb1.setManaged(false);  // A helyet is felszabadítja
         gp1.setVisible(false);
         gp1.setManaged(false);
+        lb3str.setVisible(false);
+        lb3str.setManaged(false);
+        lb2str.setVisible(false);
+        lb2str.setManaged(false);
         gpOlv2.setVisible(false);
         gpOlv2.setManaged(false);
         tv1.setVisible(false);
@@ -656,6 +660,32 @@ public class GrafikusController {
         lb1.setText("A felső label 1 mp-enként, míg az alsó 2 mp-enként változik");
         parhuz.setVisible(true);
         parhuz.setManaged(true);
+    }
+    public void streammenuClick(ActionEvent actionEvent){
+        ElemekTörlése();
+        gpOlv2.setVisible(true);
+        gpOlv2.setManaged(true);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
+            ResultSet rs = con.createStatement().executeQuery("select *from kategoria");
+            ObservableList data = FXCollections.observableArrayList();
+            while(rs.next()){
+                data.add(new String(rs.getString(2)));
+            }
+            cbOlv2.setItems(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        lb3str.setVisible(true);
+        lb3str.setManaged(true);
+        lb2str.setVisible(true);
+        lb2str.setManaged(true);
+        Session session = factory.openSession();
+        Transaction t = session.beginTransaction();
+        List<AruClass> lista = session.createQuery("FROM AruClass").list();
+        lista.stream().forEach(a-> lb2str.setText(lb2str.getText()+a.getAru_kod()+"\t\t\t"+a.getKat_kod()+"\t\t\t"+a.getNev()+"\t\t\t"+a.getEgyseg()+"\t\t\t"+a.getAr()+"\n"));
+        t.commit();
     }
 
 }

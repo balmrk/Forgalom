@@ -87,7 +87,7 @@
                     <MenuItem text="Párhuzamos" onAction="#parhuzmenuClick" />
                 </items>
                 <items>
-                    <MenuItem text="Stream" />
+                    <MenuItem text="Stream" onAction="#streammenuClick"/>
                 </items>
             </Menu>
         </menus>
@@ -195,4 +195,6 @@
         <Label fx:id="lab2" GridPane.rowIndex="1" GridPane.columnIndex="1"></Label>
         <Button onAction="#parhuzbtClick" GridPane.rowIndex="2" GridPane.columnIndex="1" >Start</Button>
     </GridPane>
+    <Label fx:id="lb3str">Áru_kód        Kategória_kód       Név              Egység          Ár</Label>
+    <Label fx:id="lb2str"/>
 </VBox>
