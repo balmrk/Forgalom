@@ -20,6 +20,7 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -185,8 +186,8 @@ public class GrafikusController {
         //==========radiobutton===========
         //================================
 
-        Boolean rf= false;
-        Boolean tf= false;
+        boolean rf= false;
+        boolean tf= false;
         try {
             if (!tfOlv2.getText().isEmpty()){
                 radio+=" AND ";
@@ -478,21 +479,61 @@ public class GrafikusController {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
         String sql = "INSERT INTO `aru` (`aru_kod`, `kat_kod`, `nev`, `egyseg`, `ar`) VALUES (?, ?, ?, ?, ?)";
-        try{
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(2, tfKat_kod.getText());
-            pst.setString(3, tfNév.getText());
-            pst.setString(4, tfEgyseg.getText());
-            pst.setString(5, tfAr.getText());
-            pst.setString(1, tfAru_kod.getText());
-            pst.execute();
-        }catch (Exception e){
-            e.printStackTrace();
+        List<String> hibak = new ArrayList<>();
+        boolean hiba=false;
+        if (tfAru_kod.getText().isEmpty()){
+            hibak.add("Áru kód");
+            hiba=true;
+        }
+        if (tfKat_kod.getText().isEmpty()){
+            hibak.add("Kategória kód");
+            hiba=true;
+        }
+        if (tfNév.getText().isEmpty()){
+            hibak.add("Név");
+            hiba=true;
+        }
+        if (tfEgyseg.getText().isEmpty()){
+            hibak.add("Egység");
+            hiba=true;
+        }
+        if (tfAr.getText().isEmpty()){
+            hibak.add("Ár");
+            hiba=true;
+        }
+        if(!hiba){
+            try{
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(2, tfKat_kod.getText());
+                pst.setString(3, tfNév.getText());
+                pst.setString(4, tfEgyseg.getText());
+                pst.setString(5, tfAr.getText());
+                pst.setString(1, tfAru_kod.getText());
+                pst.execute();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            ElemekTörlése();
+            lb1.setVisible(true);
+            lb1.setManaged(true);
+            lb1.setText("A megadott adatok hozzáadva az adatbázishoz");
+        }else {
+            insadatHiba(hibak);
+        }
+
+    }
+    public void insadatHiba(List<String> hiba){
+        String hiany="";
+        for (int i=0;i<hiba.size();i++){
+            hiany+=hiba.get(i);
+            if(i!=hiba.size()-1){
+                hiany+=", ";
+            }
         }
         ElemekTörlése();
         lb1.setVisible(true);
         lb1.setManaged(true);
-        lb1.setText("A megadott adatok hozzáadva az adatbázishoz");
+        lb1.setText("Minden adatot meg kell adni! ("+hiany+")");
     }
     public void modadatmenu(ActionEvent event) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
