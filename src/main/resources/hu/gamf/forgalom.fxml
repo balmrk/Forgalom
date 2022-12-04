@@ -135,6 +135,7 @@
         <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Kiszerelés szerint:</Label>
         <CheckBox fx:id="chbOlv21" GridPane.rowIndex="1" GridPane.columnIndex="1">liter</CheckBox>
         <CheckBox fx:id="chbOlv22" GridPane.rowIndex="1" GridPane.columnIndex="2">kg</CheckBox>
+        <CheckBox fx:id="chbOlv23" GridPane.rowIndex="1" GridPane.columnIndex="3">darab</CheckBox>
         <Label GridPane.rowIndex="3" GridPane.columnIndex="0">Kategória szerint:</Label>
         <ComboBox fx:id="cbOlv2" GridPane.rowIndex="3" GridPane.columnIndex="1"></ComboBox>
         <Button onAction="#btSzur" GridPane.rowIndex="4" GridPane.columnIndex="0" >Szűrés</Button>
