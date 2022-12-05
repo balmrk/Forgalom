@@ -133,6 +133,7 @@ public class GrafikusController {
         egysegCol.setCellValueFactory(new PropertyValueFactory<>("egyseg"));
         arCol.setCellValueFactory(new PropertyValueFactory<>("ar"));
         tv1.getItems().clear();
+
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
         List<AruClass> lista = session.createQuery("FROM AruClass").list();
@@ -147,6 +148,14 @@ public class GrafikusController {
         gpOlv2.setVisible(true);
         gpOlv2.setManaged(true);
         try{
+            Session session = factory.openSession();
+            Transaction t = session.beginTransaction();
+            List<KategoriaClass> lista = session.createQuery("FROM KategoriaClass").list();
+            for(KategoriaClass kat:lista)
+                cbOlv2.getItems().add(kat.kat_nev);
+            System.out.println();
+            t.commit();
+/*
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/forgalom", "root", "");
             ResultSet rs = con.createStatement().executeQuery("select *from kategoria");
@@ -154,7 +163,7 @@ public class GrafikusController {
             while(rs.next()){
                 data.add(new String(rs.getString(2)));
             }
-            cbOlv2.setItems(data);
+            cbOlv2.setItems(data);*/
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -509,8 +518,6 @@ public class GrafikusController {
         conn.setUseCaches(false);
         conn.setDoOutput(true);
 
-
-
         rest1DTO dto = new rest1DTO(tfName.getText(),tfGender.getText(),tfEmail.getText(),tfStatus.getText());
         System.out.println(dto.getName()+" "+dto.getEmail()+" "+dto.getGender()+" "+dto.getStatus());
 
@@ -575,12 +582,16 @@ public class GrafikusController {
         tvr2.getItems().clear();
 
         ObjectMapper om = new ObjectMapper();
-        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-        List<rest2DTO> a = om.readValue(new URL(rest2_url), new TypeReference<List<rest2DTO>>() {
-        });
+        try {
+            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<rest2DTO> a = om.readValue(new URL(rest2_url), new TypeReference<List<rest2DTO>>() {
+            });
 
-        for (rest2DTO b : a){
-            tvr2.getItems().add(b);
+            for (rest2DTO b : a) {
+                tvr2.getItems().add(b);
+            }
+        }catch (Exception e){
+            System.out.println("Nem érkezett válasz.");
         }
     }
     @FXML protected void rest2CreateClick() throws IOException {
