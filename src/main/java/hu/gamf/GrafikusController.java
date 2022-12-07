@@ -38,9 +38,9 @@ interface ParhuzLbab2 {
 }
 public class GrafikusController {
     public static String get79Resp, getAllResp;
-    @FXML private Label lb1, get79, getall, lab1, lab2, tfId, valaszr1del,lb3str,lb2str;
-    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, gp42, parhuz;
-    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2, tf2id, tf2name, tf2tipus, r1delid;
+    @FXML private Label lb1, get79, getall, lab1, lab2, tfId, valaszr1del,lb3str,lb2str,valaszr2del,tf2Id;
+    @FXML private GridPane gp1, gp2, gpOlv2, gp3, gp4, gp5, gp6, gp7, gp42, parhuz, gp8;
+    @FXML private TextField tfAru_kod, tfNév, tfEgyseg, tfAr, tfKat_kod, tfKat_kod2, tfNév2, tfOlv2, tfEgyseg2, tfAr2, tfName, tfEmail, tfGender, tfStatus, tfName2, tfEmail2, tfGender2, tfStatus2, tf2id, tf2name, tf2tipus, r1delid, r2delid;
     @FXML private ComboBox tfAru_kod2, tfAru_kod3, cbOlv2;
     @FXML private RadioButton rbOlv21, rbOlv22, rbOlv23, tf2dijazott;
     @FXML ToggleGroup group;
@@ -94,6 +94,8 @@ public class GrafikusController {
         gp42.setManaged(false);
         parhuz.setVisible(false);
         parhuz.setManaged(false);
+        gp8.setVisible(false);
+        gp8.setManaged(false);
     }
     @FXML protected void menuCreateClick() {
         ElemekTörlése();
@@ -622,9 +624,11 @@ public class GrafikusController {
     }
     @FXML protected void rest2DeleteClick() throws IOException {
         ElemekTörlése();
-        gp6.setVisible(true);
-        gp6.setManaged(true);
-        String id="3";
+        gp8.setVisible(true);
+        gp8.setManaged(true);
+    }
+    public void r2Delete() throws IOException {
+        String id=r2delid.getText();
         String url="https://cukraszda.azurewebsites.net/sutik/";
 
         url= url+id;
@@ -634,6 +638,13 @@ public class GrafikusController {
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestMethod("DELETE");
         con.connect();
+
+        String resp = con.getResponseCode()+" "+con.getResponseMessage();
+        tf2Id.setText(resp);
+        valaszr2del.setText("Válasz a "+id+"-es süti törlésére.");
+        System.out.println(resp);
+
+
     }
 
     //==================================================================================================================

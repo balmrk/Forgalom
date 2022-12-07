@@ -57,7 +57,7 @@
                     <MenuItem text="Update" />
                 </items>
                 <items>
-                    <MenuItem text="Delete" />
+                    <MenuItem text="Delete" onAction="#rest2DeleteClick" />
                 </items>
             </Menu>
             <Menu text="SoapKliens">
@@ -184,6 +184,13 @@
     <GridPane fx:id="gp7" hgap="2" vgap="4">
      <Label fx:id="get79" GridPane.rowIndex="0" GridPane.columnIndex="0">https://gorest.co.in/public/v1/users/79</Label>
      <Label fx:id="getall" GridPane.rowIndex="1" GridPane.columnIndex="0">https://gorest.co.in/public/v1/users</Label>
+    </GridPane>
+    <GridPane fx:id="gp8" hgap="2" vgap="4">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">ID</Label>
+        <TextField fx:id="r2delid" GridPane.rowIndex="1" GridPane.columnIndex="0"></TextField>
+        <Label fx:id="valaszr2del" GridPane.rowIndex="2" GridPane.columnIndex="0"></Label>
+        <Label fx:id="tf2Id" GridPane.rowIndex="3" GridPane.columnIndex="0"></Label>
+        <Button GridPane.rowIndex="4" GridPane.columnIndex="1" onAction="#r2Delete">Törlés</Button>
     </GridPane>
     <TableView fx:id="tv2" >
     </TableView>
